@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
 import os
-
+import django_heroku
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -141,8 +141,15 @@ MFA_RECHECK_MAX=30         # Maximum in seconds
 MFA_QUICKLOGIN=True        # Allow quick login for returning users by provide only their 2FA
 MFA_HIDE_DISABLE=('FIDO2',)     # Can the user disable his key (Added in 1.2.0).
 
-TOKEN_ISSUER_NAME="PROJECT_NAME"      #TOTP Issuer name
+TOKEN_ISSUER_NAME="example"      #TOTP Issuer name
 
-U2F_APPID="https://localhost"    #URL For U2F
-FIDO_SERVER_ID=u"localhost"      # Server rp id for FIDO2, it the full domain of your project
-FIDO_SERVER_NAME=u"PROJECT_NAME"
+U2F_APPID="https://polar-earth-93465.herokuapp.com"    #URL For U2F
+FIDO_SERVER_ID=u"polar-earth-93465.herokuapp.com"      # Server rp id for FIDO2, it the full domain of your project
+FIDO_SERVER_NAME=u"example"
+
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+django_heroku.settings(locals())
+
+
