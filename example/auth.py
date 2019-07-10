@@ -16,6 +16,7 @@ def loginView(request):
             from mfa.helpers import has_mfa
             res = has_mfa(username = username, request = request)  # has_mfa returns false or HttpResponseRedirect
             if res:
+                res.set_cookie("base_username", request.user.username, path="/",max_age = 15*24*60*60)
                 return res
             response = create_session(request,user.username)
             response.set_cookie("base_username", request.user.username, path="/",max_age = 15*24*60*60)
