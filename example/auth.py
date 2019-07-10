@@ -17,12 +17,10 @@ def loginView(request):
             res = has_mfa(username = username, request = request)  # has_mfa returns false or HttpResponseRedirect
             if res:
                 return res
-            return create_session(request,user.username)
+            response = create_session(request,user.username)
+            response.set_cookie("base_username", request.user.username, path="/",max_age = 15*24*60*60)
+            return 
         context["invalid"]=True
-        if request.session.get("mfa",{}).get("verified",False)  and getattr(settings,"MFA_QUICKLOGIN",False):
-            if request.session["mfa"]["method"]!="Trusted Device":
-                response.set_cookie("base_username", request.user.username, path="/",max_age = 15*24*60*60)
-        return response
     else:
         if "mfa" in settings.INSTALLED_APPS and getattr(settings,"MFA_QUICKLOGIN",False) and request.COOKIES.get('base_username'):
             username=request.COOKIES.get('base_username')
