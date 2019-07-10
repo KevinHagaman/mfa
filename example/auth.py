@@ -20,7 +20,7 @@ def loginView(request):
         context["invalid"]=True
     return render(request, "login.html", context)
 '''
-def loginView(request): # this function handles the login form POST
+def loginView(request, username, password): # this function handles the login form POST
     user = auth.authenticate(username=username, password=password)  
     if user is not None: # if the user object exist
          from mfa.helpers import has_mfa
