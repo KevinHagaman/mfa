@@ -4,6 +4,8 @@ from django.urls import reverse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
 from django.contrib import auth
+from django.conf import settings
+
 def loginView(request):
     context={}
     if request.method=="POST":
