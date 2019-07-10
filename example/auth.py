@@ -17,6 +17,16 @@ def loginView(request):
                 return res
             return create_session(request,user.username)
         context["invalid"]=True
+        if request.session.get("mfa",{}).get("verified",False)  and getattr(settings,"MFA_QUICKLOGIN",False):
+        if request.session["mfa"]["method"]!="Trusted Device":
+            response.set_cookie("base_username", request.user.username, path="/",max_age = 15*24*60*60)
+    else:
+        if "mfa" in settings.INSTALLED_APPS and getattr(settings,"MFA_QUICKLOGIN",False) and request.COOKIES.get('base_username'):
+            username=request.COOKIES.get('base_username')
+            from mfa.helpers import has_mfa
+            res =  has_mfa(username = username,request=request,)
+            if res: return res
+            ## continue and return the form.
     return render(request, "login.html", context)
 '''
 def loginView(request): # this function handles the login form POST
