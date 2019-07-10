@@ -19,7 +19,7 @@ def loginView(request):
                 return res
             response = create_session(request,user.username)
             response.set_cookie("base_username", request.user.username, path="/",max_age = 15*24*60*60)
-            return 
+            return response
         context["invalid"]=True
     else:
         if "mfa" in settings.INSTALLED_APPS and getattr(settings,"MFA_QUICKLOGIN",False) and request.COOKIES.get('base_username'):
