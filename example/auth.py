@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.models import User
+'''
 def loginView(request):
     context={}
     if request.method=="POST":
@@ -18,7 +19,7 @@ def loginView(request):
         context["invalid"]=True
     return render(request, "login.html", context)
 '''
-def login(request): # this function handles the login form POST
+def loginView(request): # this function handles the login form POST
     user = auth.authenticate(username=username, password=password)  
     if user is not None: # if the user object exist
          from mfa.helpers import has_mfa
@@ -27,7 +28,6 @@ def login(request): # this function handles the login form POST
              return res
          return log_user_in(request,username=user.username) 
          #log_user_in is a function that handles creatung user session, it should be in the setting file as MFA_CALLBACK
-'''
 def create_session(request,username):
     user=User.objects.get(username=username)
     user.backend='django.contrib.auth.backends.ModelBackend'
